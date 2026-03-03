@@ -1,0 +1,47 @@
+body {
+  margin: 0;
+  background-color: #0f0e17;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+canvas {
+  cursor: crosshair;
+  touch-action: none;
+  transition: filter 0.1s ease-out;
+}
+
+.save-flash {
+  filter: brightness(3) saturate(0);
+}
+
+#toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #1e1b2e;
+  color: #d783ff;
+  border: 1px solid #4a2070;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-family: monospace;
+  font-size: 13px;
+  opacity: 0;
+  transition:
+    opacity 0.2s,
+    transform 0.2s;
+  pointer-events: none;
+  white-space: pre;
+  max-width: 90vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
