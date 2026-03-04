@@ -461,6 +461,9 @@ function saveAsImage() {
 }
 
 window.addEventListener("keydown", (e) => {
+  // Disable all keybinds in viewing mode
+  if (typeof isViewing !== 'undefined' && isViewing) return;
+  
   const ctrl = e.ctrlKey || e.metaKey;
   if (ctrl && e.shiftKey && (e.key === "S" || e.key === "s")) {
     e.preventDefault();
@@ -519,6 +522,9 @@ function getEdgeKey(a, b) {
 
 window.addEventListener("contextmenu", (e) => e.preventDefault());
 canvas.addEventListener("mousedown", (e) => {
+  // Disable drawing in viewing mode
+  if (typeof isViewing !== 'undefined' && isViewing) return;
+  
   if (e.shiftKey && e.button === 2) {
     confirmedPatterns = [];
     usedSpotsGlobal.clear();
@@ -539,6 +545,9 @@ canvas.addEventListener("mousedown", (e) => {
   }
 });
 window.addEventListener("mousemove", (e) => {
+  // Disable drawing in viewing mode
+  if (typeof isViewing !== 'undefined' && isViewing) return;
+  
   mousePos = {
     x: e.clientX,
     y: e.clientY
@@ -578,6 +587,9 @@ window.addEventListener("mousemove", (e) => {
   draw();
 });
 window.addEventListener("mouseup", (e) => {
+  // Disable drawing in viewing mode
+  if (typeof isViewing !== 'undefined' && isViewing) return;
+  
   if (e.button === 0 && isDrawing && currentPattern.length > 1) {
     confirmedPatterns.push({
       path: [...currentPattern]
@@ -595,6 +607,14 @@ window.addEventListener("mouseup", (e) => {
 
 function draw() {
   mainCtx.clearRect(0, 0, width, height);
+  
+  // Use viewing mode if available
+  if (typeof isViewing !== 'undefined' && isViewing && typeof drawViewingMode === 'function') {
+    drawViewingMode(mainCtx, width, height);
+    return;
+  }
+  
+  // Normal drawing mode
   const range = 25;
   for (let q = -range; q <= range; q++)
     for (let r = -range; r <= range; r++) {
